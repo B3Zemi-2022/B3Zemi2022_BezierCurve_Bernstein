@@ -42,6 +42,7 @@ public class Main extends JFrame {
             // 打った点を描画する
             drawPoint(p.getX(), p.getY());
 
+
             // 点が揃ったら
             if (m_controlPoints.size() == MAX_CONTROL_POINTS) {
               // ベジェ曲線を描画
@@ -55,6 +56,15 @@ public class Main extends JFrame {
 
   public void drawBezierCurve() {
     BezierCurve bezierCurve = BezierCurve.create(m_controlPoints);
+    double b = 0;
+    System.out.println(m_controlPoints.size());
+    for(double i = 0; i < 20; i ++){
+      Point2D.Double p = bezierCurve.berstein(i / 20);
+      bernsteinPoints.add(p);
+    }
+    for(int i = 0; i < 20; i++){
+      drawPoint(bernsteinPoints.get(i).getX(),bernsteinPoints.get(i).getY());
+    }
 
     /* ↓ここから必要な処理を書き足していく↓ */
     // コツ: bezierCurve.evaluate(_t) と drawLine(_p1, _p2) を駆使する
@@ -93,6 +103,8 @@ public class Main extends JFrame {
 
   /** クリックで打たれた点を保持するリスト */
   private List<Point2D.Double> m_controlPoints = new ArrayList<>();
+
+  private List<Point2D.Double> bernsteinPoints = new ArrayList<>();
 
   /** 点の数の上限
    * （[MAX_CONTROL_POINTS]個の点を打つと、[MAX_CONTROL_POINTS - 1]次のベジェ曲線が描かれる）
